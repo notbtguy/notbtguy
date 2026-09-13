@@ -1,416 +1,339 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sanidhya S</title>
-    <style>
-        :root {
-            --mac-bg: #c8c8c8;
-            --mac-border: #555;
-            --mac-header: #1a1a1a;
-            --mac-content: #ffffff;
-            --mac-accent: #1155cc;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sanidhya Sangle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,600;1,600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --bg: #141412;
+        --bg-soft: #1b1a18;
+        --text: #f1ece2;
+        --text-dim: #a39c8f;
+        --text-faint: #6b6459;
+        --accent: #d97a4d;
+        --border: #312e29;
+        --mono: 'JetBrains Mono', 'Courier New', monospace;
+        --serif: 'Fraunces', Georgia, 'Times New Roman', serif;
+        --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
-            background: #e0e0e0;
-            color: #111;
-        }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); line-height: 1.6; }
 
-        .mac-desktop { 
-            background: var(--mac-bg); 
-            min-height: 100vh; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            padding: 20px; 
-        }
+    .wrap { max-width: 760px; margin: 0 auto; padding: 0 24px; }
 
-        .mac-window { 
-            width: 100%;
-            max-width: 680px; 
-            border: 1.5px solid var(--mac-border); 
-            border-radius: 6px; 
-            overflow: hidden; 
-            background: var(--mac-content); 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2); 
-            display: flex;
-            flex-direction: column;
-        }
+    .hr { border-top: 1px solid var(--border); }
 
-        .window-header { 
-            background: var(--mac-header); 
-            color: white; 
-            display: flex; 
-            align-items: center; 
-            padding: 0 12px; 
-            height: 38px; 
-            position: relative; 
-            flex-shrink: 0;
-        }
+    header.site-header {
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 28px 0 20px; flex-wrap: wrap; gap: 12px;
+    }
+    .brand { font-family: var(--serif); font-weight: 600; font-size: 20px; color: var(--text); }
+    .site-nav { display: flex; gap: 22px; flex-wrap: wrap; }
+    .site-nav a { font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-dim); text-decoration: none; }
+    .site-nav a:hover { color: var(--accent); }
 
-        .window-controls { display: flex; gap: 8px; align-items: center; }
-        .control { width: 12px; height: 12px; border-radius: 50%; display: inline-block; border: 1px solid rgba(0,0,0,0.1); }
-        .control.close { background: #ff5f57; }
-        .control.minimize { background: #febc2e; }
-        .control.maximize { background: #28c840; }
-        
-        .window-title { 
-            position: absolute; 
-            left: 50%; 
-            transform: translateX(-50%); 
-            font-size: 13px; 
-            font-weight: 600; 
-            color: white; 
-            white-space: nowrap;
-        }
+    section { padding: 44px 0; }
+    section.hero { padding-top: 40px; }
 
-        .window-version { 
-            font-size: 11px; 
-            color: #888; 
-            margin-left: auto; 
-            cursor: help; 
-            position: relative; 
-        }
-        
-        .window-version:hover .tooltip { display: block; }
-        .tooltip { 
-            display: none; 
-            position: absolute; 
-            right: 0; 
-            top: 24px; 
-            background: #333; 
-            color: white; 
-            font-size: 10px; 
-            padding: 4px 8px; 
-            border-radius: 4px; 
-            white-space: nowrap; 
-            z-index: 100; 
-        }
+    .hero { display: flex; gap: 40px; align-items: flex-start; }
+    .hero-text { flex: 1; min-width: 0; }
+    .hero-text h1 { font-family: var(--serif); font-weight: 600; font-size: 38px; line-height: 1.15; margin-bottom: 20px; }
+    .hero-text h1 em { font-style: italic; }
+    .hero-text .bio { font-size: 15px; color: #d8d2c6; margin-bottom: 22px; max-width: 56ch; }
+    .hero-text .bio a { color: var(--text); border-bottom: 1px solid var(--accent); text-decoration: none; }
+    .hero-text .bio a:hover { color: var(--accent); }
+    .hero-text .facts { font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--text-dim); }
 
-        .window-tabs { 
-            display: flex; 
-            background: #f0f0f0; 
-            border-bottom: 1px solid #ccc;
-        }
-        .tab { 
-            padding: 10px 24px; 
-            font-size: 13px; 
-            border: none; 
-            border-right: 1px solid #ccc; 
-            background: #f0f0f0; 
-            cursor: pointer; 
-            font-family: inherit; 
-            color: #555; 
-            transition: all 0.2s;
-        }
-        .tab:hover { background: #e8e8e8; }
-        .tab.active { 
-            background: white; 
-            color: #000; 
-            font-weight: 600;
-            border-bottom: 2px solid white;
-            margin-bottom: -1px;
-        }
+    .hero-photo { width: 180px; flex-shrink: 0; }
+    .hero-photo img { width: 100%; height: 220px; object-fit: cover; display: block; border: 1px solid var(--border); }
+    .hero-photo .caption { font-family: var(--mono); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--text-faint); margin-top: 8px; }
 
-        .window-content { flex-grow: 1; overflow-y: auto; max-height: 80vh; }
-        .tab-content { display: none; padding: 30px; }
-        .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
+    .section-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 24px; font-family: var(--mono); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; }
+    .section-head .num { color: var(--accent); }
+    .section-head .label { color: var(--text-dim); }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+    .stat-row { display: flex; align-items: baseline; padding: 10px 0; border-bottom: 1px solid var(--border); }
+    .stat-row .label { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--text-dim); white-space: nowrap; }
+    .stat-row .leader { flex: 1; border-bottom: 1px dotted var(--border); margin: 0 10px; align-self: center; }
+    .stat-row .value { font-size: 14px; color: var(--text); white-space: nowrap; text-align: right; }
 
-        .profile-header { 
-            display: flex; 
-            align-items: center; 
-            gap: 24px; 
-            margin-bottom: 24px; 
-        }
-        .profile-photo-container { 
-            width: 100px; 
-            height: 100px; 
-            flex-shrink: 0; 
-            border: 2px solid #ddd; 
-            border-radius: 4px;
-            overflow: hidden; 
-            background: #eee;
-        }
-        .profile-photo { width: 100%; height: 100%; object-fit: cover; }
-        .profile-text .name { font-size: 28px; font-weight: 700; color: #111; line-height: 1.2; }
-        .profile-text .tagline { font-size: 15px; color: #444; margin: 4px 0; }
-        .profile-text .age { font-size: 13px; color: #777; }
+    .timeline-item { display: grid; grid-template-columns: 64px 16px 1fr; gap: 0 16px; padding-bottom: 26px; position: relative; }
+    .timeline-item:last-child { padding-bottom: 0; }
+    .timeline-item .t-year { font-family: var(--mono); font-size: 11px; color: var(--text-faint); padding-top: 2px; }
+    .timeline-item .t-dot { position: relative; display: flex; justify-content: center; }
+    .timeline-item .t-dot::before { content: ''; width: 7px; height: 7px; border-radius: 50%; border: 1px solid var(--text-dim); background: var(--bg); margin-top: 6px; }
+    .timeline-item .t-dot::after { content: ''; position: absolute; top: 16px; bottom: -26px; width: 1px; background: var(--border); }
+    .timeline-item:last-child .t-dot::after { display: none; }
+    .timeline-item .t-text { font-size: 14px; color: #d8d2c6; }
+    .timeline-item .t-text b { color: var(--text); }
+    .timeline-item .t-text a { color: var(--accent); text-decoration: none; font-family: var(--mono); font-size: 12px; }
 
-        .divider { border-top: 2px dotted #ccc; margin: 25px 0; }
+    .project-list { display: flex; flex-direction: column; max-height: 420px; overflow-y: auto; border-top: 1px solid var(--border); }
+    .project-item { display: flex; flex-direction: column; padding: 10px 4px; text-decoration: none; border-bottom: 1px solid var(--border); transition: background .15s; }
+    .project-item:hover { background: var(--bg-soft); }
+    .project-item .project-name { font-size: 14px; color: var(--text); font-weight: 600; }
+    .project-item .project-link { font-family: var(--mono); font-size: 11px; color: var(--text-faint); }
 
-        .info-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); 
-            gap: 16px; 
-        }
-        .info-box { 
-            border: 1px solid #ccc; 
-            padding: 18px; 
-            background: #fbfbfb; 
-            border-radius: 2px;
-        }
-        .info-box h3 { 
-            font-size: 11px; 
-            font-weight: 800; 
-            letter-spacing: 0.1em; 
-            color: #666; 
-            text-transform: uppercase; 
-            margin-bottom: 12px; 
-        }
-        .info-box p { font-size: 14px; margin-bottom: 6px; }
-        .info-box .sub { color: #888; font-size: 12px; }
-        .info-box a { color: var(--mac-accent); text-decoration: none; border-bottom: 1px solid transparent; }
-        .info-box a:hover { border-bottom: 1px solid var(--mac-accent); }
+    .folder-view { display: flex; flex-wrap: wrap; gap: 20px; }
+    .folder-item { display: flex; flex-direction: column; align-items: center; width: 100px; cursor: pointer; padding: 12px; border-radius: 6px; transition: background .2s; }
+    .folder-item:hover { background: var(--bg-soft); }
+    .folder-icon { font-size: 42px; margin-bottom: 8px; }
+    .folder-name { font-size: 12px; color: var(--text-dim); text-align: center; font-weight: 500; font-family: var(--mono); }
 
-        .contact-section h3 { font-size: 12px; font-weight: 800; color: #666; text-transform: uppercase; margin-bottom: 15px; }
-        .button-group { display: flex; gap: 10px; flex-wrap: wrap; }
-        .mac-button { 
-            padding: 8px 16px; 
-            border: 1px solid #bbb; 
-            background: #fff; 
-            font-size: 13px; 
-            cursor: pointer; 
-            color: #333; 
-            text-decoration: none; 
-            border-radius: 3px;
-            transition: all 0.15s;
-        }
-        .mac-button:hover { background: #f5f5f5; border-color: #999; transform: translateY(-1px); }
+    .game-window { border: 1px solid var(--border); border-radius: 4px; background: #111; position: relative; overflow: hidden; }
+    .game-header { background: var(--bg-soft); padding: 8px 12px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); color: var(--text-dim); font-family: var(--mono); }
+    .game-title { font-size: 12px; font-weight: 600; }
+    .close-game { background: var(--bg); border: 1px solid var(--border); color: var(--text-dim); font-size: 10px; cursor: pointer; padding: 2px 6px; border-radius: 3px; }
 
-        .folder-view { display: flex; flex-wrap: wrap; gap: 20px; padding-bottom: 20px; }
-        .folder-item { 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            width: 100px;
-            cursor: pointer; 
-            padding: 12px; 
-            border-radius: 6px;
-            transition: background 0.2s;
-        }
-        .folder-item:hover { background: #eee; }
-        .folder-icon { font-size: 42px; margin-bottom: 8px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); }
-        .folder-name { font-size: 12px; color: #333; text-align: center; font-weight: 500; }
+    .game-container { position: relative; background: #000; display: flex; flex-direction: column; align-items: center; }
+    #gameCanvas { max-width: 100%; height: auto; background: #000; }
 
-        .game-window { 
-            border: 1px solid #ccc; 
-            border-radius: 4px; 
-            background: #111; 
-            position: relative;
-            overflow: hidden;
-        }
-        .game-header { 
-            background: #e8e8e8; 
-            padding: 8px 12px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            border-bottom: 1px solid #ccc; 
-            color: #333;
-        }
-        .game-title { font-size: 12px; font-weight: 600; }
-        .close-game { background: white; border: 1px solid #ccc; font-size: 10px; cursor: pointer; padding: 2px 6px; border-radius: 3px; }
+    .game-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; z-index: 10; text-align: center; padding: 20px; }
+    .game-overlay h2 { margin-bottom: 10px; font-size: 24px; color: #00ff00; font-family: var(--mono); }
+    .game-overlay p { margin-bottom: 20px; font-size: 14px; opacity: .8; }
+    .play-btn { background: #00ff00; color: black; border: none; padding: 10px 25px; font-weight: 700; cursor: pointer; border-radius: 4px; text-transform: uppercase; font-family: var(--mono); }
 
-        .game-container { 
-            position: relative; 
-            background: #000; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-        }
-        
-        #gameCanvas { 
-            max-width: 100%; 
-            height: auto; 
-            background: #000;
-        }
+    .mobile-controls { display: none; width: 100%; justify-content: space-between; padding: 15px; background: #222; }
+    .mobile-btn { width: 60px; height: 60px; background: #444; color: white; border: none; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; touch-action: manipulation; }
 
-        .game-overlay {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.85);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            z-index: 10;
-            text-align: center;
-            padding: 20px;
-        }
+    .contact-links { display: flex; flex-wrap: wrap; gap: 20px 18px; }
+    .contact-item { position: relative; display: inline-block; text-decoration: none; }
+    .contact-item .contact-name { font-family: var(--mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--text-dim); transition: color .2s ease; }
+    .contact-item:hover .contact-name, .contact-item:focus-visible .contact-name { color: var(--accent); }
+    .contact-item .contact-drop {
+        position: absolute; top: 100%; left: 0;
+        display: flex; align-items: center; gap: 4px;
+        font-family: var(--mono); font-size: 11px; color: var(--text-faint);
+        white-space: nowrap; pointer-events: none;
+        max-height: 0; opacity: 0; margin-top: 0; transform: translateY(-4px);
+        overflow: hidden;
+        transition: max-height .3s ease, opacity .25s ease, transform .25s ease, margin-top .3s ease;
+    }
+    .contact-item:hover .contact-drop, .contact-item:focus-visible .contact-drop {
+        max-height: 24px; opacity: 1; margin-top: 5px; transform: translateY(0);
+    }
+    .contact-item .contact-arrow { display: inline-block; color: var(--accent); transition: transform .25s ease; }
+    .contact-item:hover .contact-arrow, .contact-item:focus-visible .contact-arrow { transform: translate(2px, -2px); }
 
-        .game-overlay h2 { margin-bottom: 10px; font-size: 24px; color: #00ff00; }
-        .game-overlay p { margin-bottom: 20px; font-size: 14px; opacity: 0.8; }
-        .play-btn { 
-            background: #00ff00; 
-            color: black; 
-            border: none; 
-            padding: 10px 25px; 
-            font-weight: 700; 
-            cursor: pointer; 
-            border-radius: 4px;
-            text-transform: uppercase;
-        }
+    .quote { font-family: var(--serif); font-style: italic; font-size: 18px; color: #d8d2c6; max-width: 56ch; margin-bottom: 10px; }
+    .quote-source { font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--text-faint); }
 
-        .mobile-controls {
-            display: none;
-            width: 100%;
-            justify-content: space-between;
-            padding: 15px;
-            background: #222;
-        }
-        
-        .mobile-btn {
-            width: 60px;
-            height: 60px;
-            background: #444;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            touch-action: manipulation;
-        }
+    footer { padding: 20px 0 50px; }
 
-        /* ONLY change: Mobile button group styling */
-        @media (max-width: 600px) {
-            .mac-desktop { padding: 10px; }
-            .button-group { 
-                flex-direction: column; 
-                gap: 8px; 
-            }
-            .mac-button { 
-                width: 100%; 
-                text-align: center; 
-                padding: 12px; 
-            }
-            .mobile-controls { display: flex; }
-            .profile-header { flex-direction: column; text-align: center; }
-            .info-grid { grid-template-columns: 1fr; }
-        }
-    </style>
+    @media (max-width: 600px) {
+        .wrap { padding: 0 16px; }
+        header.site-header { flex-direction: column; align-items: flex-start; }
+        .site-nav { gap: 14px; }
+        .hero { flex-direction: column; }
+        .hero-photo { width: 140px; }
+        .hero-text h1 { font-size: 30px; }
+        .timeline-item { grid-template-columns: 46px 14px 1fr; gap: 0 10px; }
+        .mobile-controls { display: flex; }
+    }
+</style>
 </head>
 <body>
 
-<div class="mac-desktop">
-    <div class="mac-window">
-        <div class="window-header">
-            <div class="window-controls">
-                <span class="control close"></span>
-                <span class="control minimize"></span>
-                <span class="control maximize"></span>
+<div class="wrap">
+
+    <header class="site-header">
+        <div class="brand">Sanidhya Sangle</div>
+        <nav class="site-nav">
+            <a href="#story">Story</a>
+            <a href="#contact">Contact</a>
+            <a href="#projects">Projects</a>
+            <a href="#play">Play</a>
+        </nav>
+    </header>
+    <div class="hr"></div>
+
+    <section class="hero" id="story">
+        <div class="hero-text">
+            <h1>I build what I love<br><em>on the internet.</em></h1>
+            <p class="bio">
+                I've been building things on the internet since having a crush on <a href="https://www.instagram.com/a.palicha/?hl=en" target="_blank">aadit palicha</a> — games, tools, and small experiments, 38+ of them and counting. Grew up in Nashik, went to DPS Nashik, and got curious about tech, startups, and medicine all around the same time. Today I'm pursuing my <b>MBBS at DY Patil, Kolhapur</b>, while shipping SaaS tools on the side — <a href="https://bhakti-health.vercel.app" target="_blank">BeBalmy</a>, <a href="https://github.com/notbtguy/SahawasRadioAI" target="_blank">Sahawas Radio</a>, and <a href="https://thegooddoctor.ai.studio/" target="_blank">The Good Doctor</a> are all live and working. Everything else I've built is below.
+            </p>
+            <p class="facts">38+ Projects Shipped &middot; MBBS Student &middot; Nashik, India &middot; Born 2007</p>
+        </div>
+        <div class="hero-photo">
+            <img src="https://i.ibb.co/M521GM7X/sanidhya.png" alt="Sanidhya Sangle" onerror="this.src='https://via.placeholder.com/180x220?text=SS'">
+            <p class="caption">Sanidhya &middot; notbtguy</p>
+        </div>
+    </section>
+    <div class="hr"></div>
+
+    <section id="contact">
+        <div class="section-head"><span class="num">01</span><span class="label">Contact Me</span></div>
+        <div class="contact-links">
+            <a class="contact-item" href="https://www.instagram.com/notbtguy" target="_blank">
+                <span class="contact-name">Instagram</span>
+                <span class="contact-drop">@notbtguy <span class="contact-arrow">↗</span></span>
+            </a>
+            <a class="contact-item" href="https://x.com/notbtguy" target="_blank">
+                <span class="contact-name">Twitter</span>
+                <span class="contact-drop">@notbtguy <span class="contact-arrow">↗</span></span>
+            </a>
+            <a class="contact-item" href="mailto:iamsanidhya.720@gmail.com">
+                <span class="contact-name">Email</span>
+                <span class="contact-drop">iamsanidhya.720@gmail.com <span class="contact-arrow">↗</span></span>
+            </a>
+            <a class="contact-item" href="https://www.linkedin.com/in/notbtguy/" target="_blank">
+                <span class="contact-name">LinkedIn</span>
+                <span class="contact-drop">/in/notbtguy <span class="contact-arrow">↗</span></span>
+            </a>
+            <a class="contact-item" href="https://github.com/notbtguy" target="_blank">
+                <span class="contact-name">GitHub</span>
+                <span class="contact-drop">@notbtguy <span class="contact-arrow">↗</span></span>
+            </a>
+            <a class="contact-item" href="https://www.youtube.com/@notbtguy" target="_blank">
+                <span class="contact-name">YouTube</span>
+                <span class="contact-drop">@notbtguy <span class="contact-arrow">↗</span></span>
+            </a>
+        </div>
+    </section>
+    <div class="hr"></div>
+
+    <section id="numbers">
+        <div class="section-head"><span class="num">02</span><span class="label">The Numbers</span></div>
+        <div class="stat-row"><span class="label">Projects Shipped</span><span class="leader"></span><span class="value">38+</span></div>
+        <div class="stat-row"><span class="label">Currently</span><span class="leader"></span><span class="value">MBBS, DY Patil Kolhapur</span></div>
+        <div class="stat-row"><span class="label">Hometown</span><span class="leader"></span><span class="value">Nashik, India</span></div>
+        <div class="stat-row"><span class="label">Live Products</span><span class="leader"></span><span class="value">BeBalmy &middot; Sahawas Radio &middot; The Good Doctor</span></div>
+    </section>
+    <div class="hr"></div>
+
+    <section id="record">
+        <div class="section-head"><span class="num">03</span><span class="label">The Record</span></div>
+        <div class="timeline">
+            <div class="timeline-item">
+                <span class="t-year">2007</span>
+                <span class="t-dot"></span>
+                <span class="t-text">Born in Nashik, India, on 16 November.</span>
             </div>
-            <span class="window-title">Sanidhya Sangle</span>
-            <span class="window-version">v1<span class="tooltip">v2 soon</span></span>
+            <div class="timeline-item">
+                <span class="t-year">2015</span>
+                <span class="t-dot"></span>
+                <span class="t-text">Studies at <b>DPS Nashik</b>; gets curious about tech, startups, and medicine all at once.</span>
+            </div>
+            <div class="timeline-item">
+                <span class="t-year">2024</span>
+                <span class="t-dot"></span>
+                <span class="t-text">Starts shipping small projects and games — the first of <b>38+ builds</b>. <a href="#projects">see all →</a></span>
+            </div>
+            <div class="timeline-item">
+                <span class="t-year">2025</span>
+                <span class="t-dot"></span>
+                <span class="t-text">Made games and tools like <a href="https://github.com/notbtguy/bestdoctor" target="_blank">bestdoctor</a> and <a href="https://github.com/notbtguy/shootherhb" target="_blank">shootherhb</a>.</span>
+            </div>
+            <div class="timeline-item">
+                <span class="t-year">2026</span>
+                <span class="t-dot"></span>
+                <span class="t-text">Begins <b>MBBS</b> at DY Patil, Kolhapur.</span>
+            </div>
+            <div class="timeline-item">
+                <span class="t-year">2026</span>
+                <span class="t-dot"></span>
+                <span class="t-text">Ships meme worthy products like <a href="https://github.com/notbtguy/medshooter" target="_blank">medshooter</a>, <a href="https://github.com/notbtguy/paisewaladactor" target="_blank">paisewaladactor</a>, and <a href="https://github.com/notbtguy/naughtydoctor" target="_blank">naughtydoctor</a>.</span>
+            </div>
+        </div>
+    </section>
+    <div class="hr"></div>
+
+    <section id="projects">
+        <div class="section-head"><span class="num">04</span><span class="label">Projects</span></div>
+        <div class="project-list">
+            <a class="project-item" href="https://thegooddoctor.ai.studio/" target="_blank"><span class="project-name">The Good Doctor</span><span class="project-link">thegooddoctor.ai.studio ↗</span></a>
+            <a class="project-item" href="https://github.com/notbtguy/love.is.bt" target="_blank"><span class="project-name">Love Is Bt</span><span class="project-link">github.com/notbtguy/love.is.bt</span></a>
+            <a class="project-item" href="https://github.com/notbtguy/Angry-Game2" target="_blank"><span class="project-name">Angry Game2</span><span class="project-link">github.com/notbtguy/Angry-Game2</span></a>
+            <a class="project-item" href="https://github.com/notbtguy/bestdoctor" target="_blank"><span class="project-name">Bestdoctor</span><span class="project-link">github.com/notbtguy/bestdoctor</span></a>
+            <a class="project-item" href="https://github.com/notbtguy/10-Min-Rev" target="_blank"><span class="project-name">10 Min Rev</span><span class="project-link">github.com/notbtguy/10-Min-Rev</span></a>
+            <a class="project-item" href="https://github.com/notbtguy/shootherhb" target="_blank"><span class="project-name">Shootherhb</span><span class="project-link">github.com/notbtguy/shootherhb</span></a>
+            <a class="project-item" href="https://github.com/notbtguy/SahawasRadioAI" target="_blank"><span class="project-name">SahawasRadioAI</span><span class="project-link">github.com/notbtguy/SahawasRadioAI</span></a>
+            <a class="project-item" href="https://bhakti-health.vercel.app" target="_blank"><span class="project-name">BeBalmy</span><span class="project-link">bhakti-health.vercel.app ↗</span></a>
+            <a class="project-item" href="https://github.com/notbtguy/Why" target="_blank"><span class="project-name">Why</span><span class="project-link">github.com/notbtguy/Why</span></a>
+            <a class="project-item" href="https://github.com/notbtguy/focustracker" target="_blank"><span class="project-name">Focustracker</span><span class="project-link">github.com/notbtguy/focustracker</span></a>
+            <a class="project-item" href="https://github.com/notbtguy/haasbhaihaas" target="_blank"><span class="project-name">Haasbhaihaas</span><span class="project-link">github.com/notbtguy/haasbhaihaas</span></a>
+            <a class="project-item" href="https://study-surfer.vercel.app" target="_blank"><span class="project-name">Study Surfer</span><span class="project-link">study-surfer.vercel.app ↗</span></a>
+            <a class="project-item" href="https://github.com/notbtguy/medicineconnect" target="_blank"><span class="project-name">Medicineconnect</span><span class="project-link">github.com/notbtguy/medicineconnect</span></a>
+            <a class="project-item" href="https://github.com/notbtguy/Bhakti-MHealth" target="_blank"><span class="project-name">Bhakti MHealth</span><span class="project-link">github.com/notbtguy/Bhakti-MHealth</span></a>
+            <a class="project-item" href="https://github.com/notbtguy/naughtydoctor" target="_blank"><span class="project-name">Naughtydoctor</span><span class="project-link">github.com/notbtguy/naughtydoctor</span></a>
+            <a class="project-item" href="https://github.com/notbtguy/paisewaladactor" target="_blank"><span class="project-name">Paisewaladactor</span><span class="project-link">github.com/notbtguy/paisewaladactor</span></a>
+            <a class="project-item" href="https://github.com/notbtguy/medshooter" target="_blank"><span class="project-name">Medshooter</span><span class="project-link">github.com/notbtguy/medshooter</span></a>
+            <a class="project-item" href="https://github.com/notbtguy/Air-Meme" target="_blank"><span class="project-name">Air Meme</span><span class="project-link">github.com/notbtguy/Air-Meme</span></a>
+            <a class="project-item" href="https://github.com/notbtguy/SRK-Hakla" target="_blank"><span class="project-name">SRK Hakla</span><span class="project-link">github.com/notbtguy/SRK-Hakla</span></a>
+            <a class="project-item" href="https://github.com/notbtguy/Mommy-Number" target="_blank"><span class="project-name">Mommy Number</span><span class="project-link">github.com/notbtguy/Mommy-Number</span></a>
+            <a class="project-item" href="https://full-screen-kappa.vercel.app" target="_blank"><span class="project-name">Full Screen</span><span class="project-link">full-screen-kappa.vercel.app ↗</span></a>
+            <a class="project-item" href="https://github.com/notbtguy/Class-Connect-Daily" target="_blank"><span class="project-name">Class Connect Daily</span><span class="project-link">github.com/notbtguy/Class-Connect-Daily</span></a>
+            <a class="project-item" href="https://github.com/notbtguy/AI-Doubt-RALAAI" target="_blank"><span class="project-name">AI Doubt RALAAI</span><span class="project-link">github.com/notbtguy/AI-Doubt-RALAAI</span></a>
+            <a class="project-item" href="https://github.com/notbtguy/Modiji" target="_blank"><span class="project-name">Modiji</span><span class="project-link">github.com/notbtguy/Modiji</span></a>
+            <a class="project-item" href="https://github.com/notbtguy/Genztoold" target="_blank"><span class="project-name">Genztoold</span><span class="project-link">github.com/notbtguy/Genztoold</span></a>
+            <a class="project-item" href="https://github.com/notbtguy/tagalmond" target="_blank"><span class="project-name">Tagalmond</span><span class="project-link">github.com/notbtguy/tagalmond</span></a>
+            <a class="project-item" href="https://github.com/notbtguy/tagdoctor" target="_blank"><span class="project-name">Tagdoctor</span><span class="project-link">github.com/notbtguy/tagdoctor</span></a>
+            <a class="project-item" href="https://github.com/notbtguy/Samay-Photo" target="_blank"><span class="project-name">Samay Photo</span><span class="project-link">github.com/notbtguy/Samay-Photo</span></a>
+            <a class="project-item" href="https://github.com/notbtguy/Study-Bird" target="_blank"><span class="project-name">Study Bird</span><span class="project-link">github.com/notbtguy/Study-Bird</span></a>
+            <a class="project-item" href="https://github.com/notbtguy/Fruit-Ninja2" target="_blank"><span class="project-name">Fruit Ninja2</span><span class="project-link">github.com/notbtguy/Fruit-Ninja2</span></a>
+            <a class="project-item" href="https://github.com/notbtguy/Samay-Bhai" target="_blank"><span class="project-name">Samay Bhai</span><span class="project-link">github.com/notbtguy/Samay-Bhai</span></a>
+            <a class="project-item" href="https://github.com/notbtguy/Hand-Snake" target="_blank"><span class="project-name">Hand Snake</span><span class="project-link">github.com/notbtguy/Hand-Snake</span></a>
+            <a class="project-item" href="https://github.com/notbtguy/Sani-Doomscroll" target="_blank"><span class="project-name">Sani Doomscroll</span><span class="project-link">github.com/notbtguy/Sani-Doomscroll</span></a>
+            <a class="project-item" href="https://github.com/notbtguy/Sani-Game" target="_blank"><span class="project-name">Sani Game</span><span class="project-link">github.com/notbtguy/Sani-Game</span></a>
+            <a class="project-item" href="https://github.com/notbtguy/Sahawas-Staff" target="_blank"><span class="project-name">Sahawas Staff</span><span class="project-link">github.com/notbtguy/Sahawas-Staff</span></a>
+            <a class="project-item" href="https://github.com/notbtguy/Sahawas-Marketing" target="_blank"><span class="project-name">Sahawas Marketing</span><span class="project-link">github.com/notbtguy/Sahawas-Marketing</span></a>
+            <a class="project-item" href="https://github.com/notbtguy/Gesture-Sahawas" target="_blank"><span class="project-name">Gesture Sahawas</span><span class="project-link">github.com/notbtguy/Gesture-Sahawas</span></a>
+            <a class="project-item" href="https://github.com/notbtguy/DPSN-Motivation" target="_blank"><span class="project-name">DPSN Motivation</span><span class="project-link">github.com/notbtguy/DPSN-Motivation</span></a>
+        </div>
+    </section>
+    <div class="hr"></div>
+
+    <section id="play">
+        <div class="section-head"><span class="num">05</span><span class="label">Play</span></div>
+        <div class="folder-view" id="folder-list">
+            <div class="folder-item" onclick="openGame()">
+                <div class="folder-icon">👾</div>
+                <p class="folder-name">Space Invaders</p>
+            </div>
         </div>
 
-        <div class="window-tabs">
-            <button class="tab active" data-tab="profile">Profile</button>
-            <button class="tab" data-tab="games">Games</button>
+        <div id="game-window" class="game-window" style="display:none;">
+            <div class="game-header">
+                <span class="game-title">Space Invaders (Turret Mode)</span>
+                <button class="close-game" onclick="closeGame()">✕</button>
+            </div>
+            <div class="game-container">
+                <div id="game-overlay" class="game-overlay">
+                    <h2 id="overlay-title">SPACE INVADERS</h2>
+                    <p id="overlay-msg">← → Move • Stand still + SPACE to fire machine gun!</p>
+                    <button class="play-btn" onclick="startGame()">Start Game</button>
+                </div>
+                <canvas id="gameCanvas" width="560" height="360"></canvas>
+
+                <div class="mobile-controls">
+                    <button class="mobile-btn" ontouchstart="keys['ArrowLeft']=true" ontouchend="keys['ArrowLeft']=false">←</button>
+                    <button class="mobile-btn" ontouchstart="keys[' ']=true" ontouchend="keys[' ']=false">🔥</button>
+                    <button class="mobile-btn" ontouchstart="keys['ArrowRight']=true" ontouchend="keys['ArrowRight']=false">→</button>
+                </div>
+            </div>
         </div>
+    </section>
+    <div class="hr"></div>
 
-        <main class="window-content">
-            <div id="profile-tab" class="tab-content active">
-                <div class="profile-header">
-                    <div class="profile-photo-container">
-                        <img src="https://i.ibb.co/M521GM7X/sanidhya.png" alt="Sanidhya Sangle" class="profile-photo" onerror="this.src='https://via.placeholder.com/100?text=SS'">
-                    </div>
-                    <div class="profile-text">
-                        <h1 class="name">Sanidhya Sangle</h1>
-                        <p class="tagline">Building what I love on the internet</p>
-                        <p class="age">18 (2007) • Nashik, India</p>
-                    </div>
-                </div>
+    <section>
+        <p class="quote">"The only reason to play the game is to be free of it."</p>
+        <p class="quote-source">— NAVAL RAVIKANT</p>
+    </section>
 
-                <div class="divider"></div>
+    <footer>
+        <span class="quote-source">Sanidhya Sangle &middot; built from scratch</span>
+    </footer>
 
-                <div class="info-grid">
-                    <div class="info-box">
-                        <h3>Already Built</h3>
-                        <p><a href="https://full-screen-kappa.vercel.app" target="_blank">Full Screen</a> &bull; <a href="https://study-surfer.vercel.app" target="_blank">Study Surf</a></p>
-                        <p class="sub">Hobby projects focused on utility.</p>
-                    </div>
-                    <div class="info-box">
-                        <h3>Currently Building</h3>
-                        <p><a href="https://bhakti-health.vercel.app" target="_blank">BeBalmy</a></p>
-                        <p class="sub">A next-gen mental health tool.</p>
-                    </div>
-                </div>
-
-                <div class="divider"></div>
-
-                <div class="contact-section">
-                    <h3>Connect with me</h3>
-                    <div class="button-group">
-                        <a href="https://instagram.com/thatbtguy.16" target="_blank" class="mac-button">Instagram</a>
-                        <a href="https://x.com/sanidhyasangle" target="_blank" class="mac-button">Twitter</a>
-                        <a href="mailto:sanidhya.sangle@gmail.com" class="mac-button">Email</a>
-                        <a href="https://linkedin.com/in/iamsanidhya/" target="_blank" class="mac-button">LinkedIn</a>
-                        <a href="https://github.com/thesaanidhya" target="_blank" class="mac-button">GitHub</a>
-                        <a href="https://www.youtube.com/@sanidhyasangle" target="_blank" class="mac-button">YouTube</a>
-                    </div>
-                </div>
-            </div>
-
-            <div id="games-tab" class="tab-content">
-                <div class="folder-view" id="folder-list">
-                    <div class="folder-item" onclick="openGame()">
-                        <div class="folder-icon">👾</div>
-                        <p class="folder-name">Space Invaders</p>
-                    </div>
-                </div>
-
-                <div id="game-window" class="game-window" style="display:none;">
-                    <div class="game-header">
-                        <span class="game-title">Space Invaders (Turret Mode)</span>
-                        <button class="close-game" onclick="closeGame()">✕</button>
-                    </div>
-                    <div class="game-container">
-                        <div id="game-overlay" class="game-overlay">
-                            <h2 id="overlay-title">SPACE INVADERS</h2>
-                            <p id="overlay-msg">← → Move • Stand still + SPACE to fire machine gun!</p>
-                            <button class="play-btn" onclick="startGame()">Start Game</button>
-                        </div>
-                        <canvas id="gameCanvas" width="560" height="360"></canvas>
-                        
-                        <div class="mobile-controls">
-                            <button class="mobile-btn" ontouchstart="keys['ArrowLeft']=true" ontouchend="keys['ArrowLeft']=false">←</button>
-                            <button class="mobile-btn" ontouchstart="keys[' ']=true" ontouchend="keys[' ']=false">🔥</button>
-                            <button class="mobile-btn" ontouchstart="keys['ArrowRight']=true" ontouchend="keys['ArrowRight']=false">→</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
-    </div>
 </div>
 
 <script>
-    const tabs = document.querySelectorAll('.tab');
-    const contents = document.querySelectorAll('.tab-content');
-
-    tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            const target = tab.getAttribute('data-tab');
-            tabs.forEach(t => t.classList.remove('active'));
-            contents.forEach(c => c.classList.remove('active'));
-            tab.classList.add('active');
-            document.getElementById(target + '-tab').classList.add('active');
-        });
-    });
-
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
     const overlay = document.getElementById('game-overlay');
@@ -418,16 +341,16 @@
     const overlayMsg = document.getElementById('overlay-msg');
 
     const keys = {};
-    let game = { 
-        active: false, 
-        score: 0, 
-        player: { x: 260, y: 320, width: 40, height: 20 }, 
-        bullets: [], 
-        invaders: [], 
-        invaderDirection: 1, 
-        invaderSpeed: 1.2, 
+    let game = {
+        active: false,
+        score: 0,
+        player: { x: 260, y: 320, width: 40, height: 20 },
+        bullets: [],
+        invaders: [],
+        invaderDirection: 1,
+        invaderSpeed: 1.2,
         lastShootTime: 0,
-        shootInterval: 80 
+        shootInterval: 80
     };
 
     function openGame() {
@@ -447,12 +370,12 @@
         const cols = 8;
         for (let r = 0; r < rows; r++) {
             for (let c = 0; c < cols; c++) {
-                game.invaders.push({ 
-                    x: c * 55 + 60, 
-                    y: r * 35 + 40, 
-                    width: 30, 
-                    height: 20, 
-                    alive: true 
+                game.invaders.push({
+                    x: c * 55 + 60,
+                    y: r * 35 + 40,
+                    width: 30,
+                    height: 20,
+                    alive: true
                 });
             }
         }
@@ -467,12 +390,12 @@
     function shoot() {
         const now = Date.now();
         if (now - game.lastShootTime >= game.shootInterval) {
-            game.bullets.push({ 
-                x: game.player.x + 18, 
-                y: game.player.y, 
-                width: 4, 
-                height: 12, 
-                speed: 10 
+            game.bullets.push({
+                x: game.player.x + 18,
+                y: game.player.y,
+                width: 4,
+                height: 12,
+                speed: 10
             });
             game.lastShootTime = now;
         }
@@ -509,7 +432,7 @@
             game.player.x += 6;
             isMoving = true;
         }
-        
+
         if (keys[' '] && !isMoving) {
             shoot();
         }
@@ -526,7 +449,7 @@
             if (!inv.alive) return;
             anyAlive = true;
             inv.x += game.invaderSpeed * game.invaderDirection;
-            
+
             if (inv.x <= 10 || inv.x >= canvas.width - inv.width - 10) hitEdge = true;
             if (inv.y + inv.height >= game.player.y) {
                 gameOver(false);
@@ -545,13 +468,13 @@
 
         game.bullets.forEach(b => {
             game.invaders.forEach(inv => {
-                if (inv.alive && 
-                    b.x < inv.x + inv.width && 
-                    b.x + b.width > inv.x && 
-                    b.y < inv.y + inv.height && 
+                if (inv.alive &&
+                    b.x < inv.x + inv.width &&
+                    b.x + b.width > inv.x &&
+                    b.y < inv.y + inv.height &&
                     b.y + b.height > inv.y) {
                     inv.alive = false;
-                    b.y = -100; 
+                    b.y = -100;
                     game.score += 10;
                 }
             });
